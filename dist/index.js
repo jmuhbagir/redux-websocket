@@ -65,7 +65,7 @@ var createMiddleware = function createMiddleware() {
    * Close the WebSocket connection and cleanup
    */
   var close = function close() {
-    if (websocket.url) {
+    if (websocket && websocket.url) {
       console.warn('Closing WebSocket connection to ' + websocket.url + ' ...');
       websocket.close();
       websocket = null;
