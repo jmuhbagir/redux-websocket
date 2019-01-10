@@ -59,6 +59,7 @@ const createMiddleware = () => {
    * Each of the actions handled are user-dispatched.
    */
   return (store: Object) => (next: Function) => (action: Action) => {
+    if(action) {
     switch (action.type) {
       // User request to connect
       case WEBSOCKET_CONNECT:
@@ -74,7 +75,6 @@ const createMiddleware = () => {
       // User request to send a message
       case WEBSOCKET_SEND:
         if (websocket) {
-          console.log(websocket);
           websocket.send(JSON.stringify(action.payload));
         } else {
           console.warn('WebSocket is closed, ignoring. Trigger a WEBSOCKET_CONNECT first.');
@@ -85,6 +85,7 @@ const createMiddleware = () => {
         break;
     }
     return next(action);
+  }
   };
 };
 
