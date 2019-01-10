@@ -74,6 +74,7 @@ const createMiddleware = () => {
       // User request to send a message
       case WEBSOCKET_SEND:
         if (websocket) {
+          console.log(websocket);
           websocket.send(JSON.stringify(action.payload));
         } else {
           console.warn('WebSocket is closed, ignoring. Trigger a WEBSOCKET_CONNECT first.');
