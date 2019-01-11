@@ -79,31 +79,33 @@ var createMiddleware = function createMiddleware() {
   return function (store) {
     return function (next) {
       return function (action) {
-        switch (action.type) {
-          // User request to connect
-          case WEBSOCKET_CONNECT:
-            close();
-            initialize(store, action.payload);
-            break;
+        if (action) {
+          switch (action.type) {
+            // User request to connect
+            case WEBSOCKET_CONNECT:
+              close();
+              initialize(store, action.payload);
+              break;
 
-          // User request to disconnect
-          case WEBSOCKET_DISCONNECT:
-            close();
-            break;
+            // User request to disconnect
+            case WEBSOCKET_DISCONNECT:
+              close();
+              break;
 
-          // User request to send a message
-          case WEBSOCKET_SEND:
-            if (websocket) {
-              websocket.send(JSON.stringify(action.payload));
-            } else {
-              console.warn('WebSocket is closed, ignoring. Trigger a WEBSOCKET_CONNECT first.');
-            }
-            break;
+            // User request to send a message
+            case WEBSOCKET_SEND:
+              if (websocket) {
+                websocket.send(JSON.stringify(action.payload));
+              } else {
+                console.warn('WebSocket is closed, ignoring. Trigger a WEBSOCKET_CONNECT first.');
+              }
+              break;
 
-          default:
-            break;
+            default:
+              break;
+          }
+          return next(action);
         }
-        return next(action);
       };
     };
   };

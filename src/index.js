@@ -59,6 +59,7 @@ const createMiddleware = () => {
    * Each of the actions handled are user-dispatched.
    */
   return (store: Object) => (next: Function) => (action: Action) => {
+  if(action){
     switch (action.type) {
       // User request to connect
       case WEBSOCKET_CONNECT:
@@ -84,6 +85,7 @@ const createMiddleware = () => {
         break;
     }
     return next(action);
+  }
   };
 };
 
